@@ -1,0 +1,10 @@
+version: '3'
+services:
+  jazapi:
+    build: ./jaz-api
+    ports:
+    - "11111:11111"
+  jazclient:
+    build: ./jaz-client
+    ports:
+    - "22222:22222"
