@@ -4,7 +4,18 @@ services:
     build: ./jaz-api
     ports:
     - "11111:11111"
+    restart: on-failure:5
   jazclient:
     build: ./jaz-client
     ports:
     - "22222:22222"
+  cardb:
+    build: ./db
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pwd
+      MYSQL_DATABASE: carseller
+      MYSQL_USER: salesman
+      MYSQL_PASSWORD: pwd
