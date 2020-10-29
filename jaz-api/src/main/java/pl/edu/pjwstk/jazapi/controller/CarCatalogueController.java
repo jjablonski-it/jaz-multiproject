@@ -1,26 +1,39 @@
 package pl.edu.pjwstk.jazapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwstk.jazapi.model.Car;
-
-import java.util.ArrayList;
-import java.util.List;
+import pl.edu.pjwstk.jazapi.service.CarService;
 
 @RestController
+@RequestMapping("/cars")
 public class CarCatalogueController {
 
-    private List<Car> catalogue;
+    @Value("${train.count}")
+    private int trainCount;
 
-    public CarCatalogueController() {
-        catalogue = new ArrayList<>();
-        catalogue.add(new Car("Volvo", "1998"));
-        catalogue.add(new Car("Renault", "2001"));
-        catalogue.add(new Car("BMW", "2007"));
+    @Autowired
+    private CarService carService;
+
+    @GetMapping
+    public Integer getCarCatalogue() {
+        return trainCount;
     }
 
-    @GetMapping("/cars")
-    public List<Car> getCarCatalogue() {
-        return catalogue;
+    @PostMapping
+    public void addCar(@RequestBody Car car) {
+        carService.addNewCar(car);
+    }
+
+    @PutMapping
+    public void updateCar(@RequestBody Car car) {
+        carService.updateCar(car);
+    }
+
+    @DeleteMapping
+    @RequestMapping("/{id}")
+    public void deleteCar(@PathVariable("id") Long id) {
+        carService.deleteCar(id);
     }
 }
