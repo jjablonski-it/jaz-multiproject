@@ -22,6 +22,11 @@ public class CarCatalogueController {
         return carService.getCarById(id);
     }
 
+    @PutMapping("/{id}")
+    public void updateCar(@RequestBody Car car) {
+        carService.createOrUpdateCar(car);
+    }
+
     @PostMapping
     public void addCar(@RequestBody Car car) {
         carService.createOrUpdateCar(car);

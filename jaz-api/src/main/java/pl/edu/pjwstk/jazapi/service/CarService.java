@@ -50,6 +50,7 @@ public class CarService {
         if (carInDb.isPresent()) {
             Car newEntity = carInDb.get();
             newEntity.setManufacturer(entity.getManufacturer());
+            newEntity.setModel(entity.getModel());
             newEntity.setYearOfProduction(entity.getYearOfProduction());
 
             newEntity = repository.save(newEntity);

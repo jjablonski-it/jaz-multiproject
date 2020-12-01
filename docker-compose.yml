@@ -3,12 +3,16 @@ services:
   jazapi:
     build: ./jaz-api
     ports:
-    - "11111:11111"
+      - "11111:11111"
     restart: on-failure:5
+    depends_on:
+      - cardb
   jazclient:
     build: ./jaz-client
     ports:
-    - "22222:22222"
+      - "22222:22222"
+    depends_on:
+      - jazapi
   cardb:
     build: ./db
     ports:

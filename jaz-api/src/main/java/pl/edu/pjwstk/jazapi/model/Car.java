@@ -7,20 +7,21 @@ import javax.persistence.*;
 public class Car {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String manufacturer;
 
+    private String model;
+
     @Column(name = "production_year")
     private String yearOfProduction;
 
-    public Car() {
+    public Car() {}
 
-    }
-
-    public Car(String manufacturer, String yearOfProduction) {
+    public Car(String manufacturer, String model, String yearOfProduction) {
         this.manufacturer = manufacturer;
+        this.model = model;
         this.yearOfProduction = yearOfProduction;
     }
 
@@ -46,5 +47,13 @@ public class Car {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }
