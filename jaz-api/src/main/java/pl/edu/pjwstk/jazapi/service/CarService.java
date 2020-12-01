@@ -1,6 +1,7 @@
 package pl.edu.pjwstk.jazapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pl.edu.pjwstk.jazapi.model.Car;
 import pl.edu.pjwstk.jazapi.repository.CarRepository;
@@ -11,12 +12,11 @@ import java.util.Optional;
 
 import static pl.edu.pjwstk.jazapi.util.Utils.fallbackIfNull;
 
-@Service
+@Component
 public class CarService {
 
     private final CarRepository repository;
 
-    @Autowired
     public CarService(CarRepository carRepository) {
         this.repository = carRepository;
     }

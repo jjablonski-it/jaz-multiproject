@@ -17,7 +17,8 @@ public class Car {
     @Column(name = "production_year")
     private String yearOfProduction;
 
-    public Car() {}
+    public Car() {
+    }
 
     public Car(String manufacturer, String model, String yearOfProduction) {
         this.manufacturer = manufacturer;
