@@ -6,9 +6,10 @@ import pl.edu.pjwstk.jazapi.model.Car;
 import pl.edu.pjwstk.jazapi.repository.CarRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static pl.edu.pjwstk.jazapi.util.Utils.fallbackIfNull;
 
 @Service
 public class CarService {
@@ -26,11 +27,7 @@ public class CarService {
 
         cars.forEach(carList::add);
 
-        if (carList.size() > 0) {
-            return carList;
-        } else {
-            return Collections.emptyList();
-        }
+        return carList;
     }
 
     public Car getCarById(Long id) {
@@ -39,27 +36,27 @@ public class CarService {
         return car.orElse(null);
     }
 
-    public Car createOrUpdateCar(Car entity) {
-
-        if (entity.getId() == null) {
-            return repository.save(entity);
+    public Car createOrUpdateCar(Car updateEntity) {
+        if (updateEntity.getId() == null) {
+            return repository.save(updateEntity);
         }
 
-        Optional<Car> carInDb = repository.findById(entity.getId());
+        Optional<Car> carInDb = repository.findById(updateEntity.getId());
 
         if (carInDb.isPresent()) {
-            Car newEntity = carInDb.get();
-            newEntity.setManufacturer(entity.getManufacturer());
-            newEntity.setModel(entity.getModel());
-            newEntity.setYearOfProduction(entity.getYearOfProduction());
+            Car dbEntity = carInDb.get();
 
-            newEntity = repository.save(newEntity);
+            dbEntity.setManufacturer(fallbackIfNull(updateEntity.getManufacturer(), dbEntity.getManufacturer()));
+            dbEntity.setModel(fallbackIfNull(updateEntity.getModel(), dbEntity.getModel()));
+            dbEntity.setYearOfProduction(fallbackIfNull(updateEntity.getYearOfProduction(), dbEntity.getYearOfProduction()));
 
-            return newEntity;
+            dbEntity = repository.save(dbEntity);
+
+            return dbEntity;
         } else {
-            entity = repository.save(entity);
+            updateEntity = repository.save(updateEntity);
 
-            return entity;
+            return updateEntity;
         }
     }
 

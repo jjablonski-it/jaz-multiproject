@@ -22,7 +22,7 @@ public class CarCatalogueController {
         return carService.getCarById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public void updateCar(@RequestBody Car car) {
         carService.createOrUpdateCar(car);
     }
