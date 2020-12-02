@@ -1,70 +1,59 @@
 package pl.edu.pjwstk.jazapi.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import pl.edu.pjwstk.jazapi.model.AddOn;
 import pl.edu.pjwstk.jazapi.model.Car;
+import pl.edu.pjwstk.jazapi.repository.AddOnRepository;
 import pl.edu.pjwstk.jazapi.repository.CarRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import static pl.edu.pjwstk.jazapi.util.Utils.fallbackIfNull;
 
-@Component
-public class CarService {
+@Service
+public class CarService extends CrudService<Car> {
+    private final AddOnRepository addOnRepository;
 
-    private final CarRepository repository;
-
-    public CarService(CarRepository carRepository) {
-        this.repository = carRepository;
+    public CarService(CarRepository carRepository, AddOnRepository addOnRepository) {
+        super(carRepository);
+        this.addOnRepository = addOnRepository;
     }
 
-    public List<Car> getAllCars() {
-        Iterable<Car> cars = repository.findAll();
-        var carList = new ArrayList<Car>();
-
-        cars.forEach(carList::add);
-
-        return carList;
-    }
-
-    public Car getCarById(Long id) {
-        Optional<Car> car = repository.findById(id);
-
-        return car.orElse(null);
-    }
-
-    public Car createOrUpdateCar(Car updateEntity) {
+    @Override
+    public Car createOrUpdate(Car updateEntity) {
         if (updateEntity.getId() == null) {
-            return repository.save(updateEntity);
+            System.out.println(updateEntity);
+            var addons = updateEntity.getAddons();
+            updateEntity.setAddons(Collections.emptySet());
+            Car insertedCar = repository.save(updateEntity);
+
+            addons.forEach(addon -> addon.setCar(insertedCar));
+            addOnRepository.saveAll(addons);
+
+            return insertedCar;
         }
 
         Optional<Car> carInDb = repository.findById(updateEntity.getId());
 
         if (carInDb.isPresent()) {
-            Car dbEntity = carInDb.get();
+            var dbEntity = carInDb.get();
 
             dbEntity.setManufacturer(fallbackIfNull(updateEntity.getManufacturer(), dbEntity.getManufacturer()));
             dbEntity.setModel(fallbackIfNull(updateEntity.getModel(), dbEntity.getModel()));
             dbEntity.setYearOfProduction(fallbackIfNull(updateEntity.getYearOfProduction(), dbEntity.getYearOfProduction()));
+            var insertedCar = repository.save(dbEntity);
 
-            dbEntity = repository.save(dbEntity);
+            Set<AddOn> addons = updateEntity.getAddons();
+            addons.forEach(addon -> addon.setCar(dbEntity));
+            addOnRepository.saveAll(addons);
 
-            return dbEntity;
+            return insertedCar;
         } else {
             updateEntity = repository.save(updateEntity);
 
             return updateEntity;
-        }
-    }
-
-    public void deleteCarById(Long id) {
-        Optional<Car> carInDb = repository.findById(id);
-
-        if (carInDb.isPresent()) {
-            repository.deleteById(id);
         }
     }
 }

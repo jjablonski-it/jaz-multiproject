@@ -1,39 +1,33 @@
 package pl.edu.pjwstk.jazapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import pl.edu.pjwstk.jazapi.model.AddOn;
 import pl.edu.pjwstk.jazapi.model.Car;
 import pl.edu.pjwstk.jazapi.service.CarService;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 @RestController
 @RequestMapping("/cars")
-public class CarCatalogueController {
+public class CarCatalogueController extends CrudController<Car> {
 
-    @Autowired
-    private CarService carService;
-
-    @GetMapping()
-    public Iterable<Car> getCarCatalogue() {
-        return carService.getAllCars();
+    public CarCatalogueController(CarService service) {
+        super(service);
     }
 
-    @GetMapping("/{id}")
-    public Car getCar(@PathVariable("id") Long id) {
-        return carService.getCarById(id);
-    }
+    public Function<Car, Map<String, Object>> transformToDTO() {
+        return car -> {
+            var payload = new LinkedHashMap<String, Object>();
+            payload.put("id", car.getId());
+            payload.put("model", car.getModel());
+            payload.put("manufacturer", car.getManufacturer());
+            payload.put("production_year", car.getYearOfProduction());
+            payload.put("addons", car.getAddons().stream().map(AddOn::getId));
 
-    @PutMapping
-    public void updateCar(@RequestBody Car car) {
-        carService.createOrUpdateCar(car);
-    }
-
-    @PostMapping
-    public void addCar(@RequestBody Car car) {
-        carService.createOrUpdateCar(car);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable("id") Long id) {
-        carService.deleteCarById(id);
+            return payload;
+        };
     }
 }

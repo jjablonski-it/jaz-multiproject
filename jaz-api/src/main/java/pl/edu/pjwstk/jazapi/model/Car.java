@@ -1,10 +1,13 @@
 package pl.edu.pjwstk.jazapi.model;
 
+import pl.edu.pjwstk.jazapi.service.DbEntity;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "cars")
-public class Car {
+public class Car implements DbEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,16 +17,13 @@ public class Car {
 
     private String model;
 
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AddOn> addons;
+
     @Column(name = "production_year")
     private String yearOfProduction;
 
     public Car() {
-    }
-
-    public Car(String manufacturer, String model, String yearOfProduction) {
-        this.manufacturer = manufacturer;
-        this.model = model;
-        this.yearOfProduction = yearOfProduction;
     }
 
     public String getManufacturer() {
@@ -56,5 +56,24 @@ public class Car {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Set<AddOn> getAddons() {
+        return addons;
+    }
+
+    public void setAddons(Set<AddOn> addons) {
+        this.addons = addons;
+    }
+
+    @Override
+    public String toString() {
+        return "Car[" +
+                "id=" + id +
+                "manufacturer=" + manufacturer +
+                "model=" + model +
+                "yearOfProduction=" + yearOfProduction +
+                "addOns=" + addons +
+                "]";
     }
 }
