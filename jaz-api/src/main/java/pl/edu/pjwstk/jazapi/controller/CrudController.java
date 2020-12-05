@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwstk.jazapi.service.CrudService;
 import pl.edu.pjwstk.jazapi.service.DbEntity;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,15 +23,24 @@ public abstract class CrudController<T extends DbEntity> {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Map<String, Object>>> getAll() {
+    public ResponseEntity<List<Map<String, Object>>> getAll(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name= "size", defaultValue = "4") int size,
+            @RequestParam(name= "sort", defaultValue = "desc,id") String sort
+    ) {
         try {
-            List<T> all = service.getAll();
+            String[] sortData = (sort.split(","));
+            String sortDirection = sortData[0];
+            String[] params = Arrays.copyOfRange(sortData, 1, sortData.length);
+
+            List<T> all = service.getAll(page, size, sortDirection, params);
             List<Map<String, Object>> payload = all.stream()
                     .map(obj -> transformToDTO().apply(obj))
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(payload, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
