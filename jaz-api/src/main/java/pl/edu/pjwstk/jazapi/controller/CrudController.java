@@ -1,12 +1,16 @@
 package pl.edu.pjwstk.jazapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pjwstk.jazapi.service.CrudService;
 import pl.edu.pjwstk.jazapi.service.DbEntity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,9 +25,11 @@ public abstract class CrudController<T extends DbEntity> {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Map<String, Object>>> getAll() {
+    public ResponseEntity<List<Map<String, Object>>> getAll(@RequestParam(defaultValue = "4") int size,
+                                                            @RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "asc,id") String sort) {
         try {
-            List<T> all = service.getAll();
+            List<T> all = service.getAll(size, page, sort);
             List<Map<String, Object>> payload = all.stream()
                     .map(obj -> transformToDTO().apply(obj))
                     .collect(Collectors.toList());
