@@ -37,10 +37,10 @@ public abstract class CrudService<T extends DbEntity> {
         String firstKey = sortStringArray[0].toLowerCase();
         String[] sortProperties = sortStringArray;
 
-        if (firstKey.equals("desc")) {
-            direction = Sort.Direction.DESC;
+        if (firstKey.equals("asc")) {
             sortProperties = Arrays.stream(sortStringArray).skip(1).toArray(String[]::new);
-        } else if (firstKey.equals("asc")) {
+        } else if (firstKey.equals("desc")) {
+            direction = Sort.Direction.DESC;
             sortProperties = Arrays.stream(sortStringArray).skip(1).toArray(String[]::new);
         }
 
