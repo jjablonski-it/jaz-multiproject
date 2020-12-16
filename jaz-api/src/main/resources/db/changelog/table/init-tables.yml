@@ -6,11 +6,7 @@ databaseChangeLog:
         - onFail: MARK_RAN
           not:
             tableExists:
-              tableName: cars
-        - onFail: MARK_RAN
-          not:
-            tableExists:
-              tableName: addons
+              tableName: cars, addons
       changes:
         - createTable:
             tableName: cars
