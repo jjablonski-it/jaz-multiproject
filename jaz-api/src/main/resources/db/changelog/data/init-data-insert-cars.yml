@@ -1,0 +1,149 @@
+databaseChangeLog:
+  - changeSet:
+      id:  2020_12_10-insert-initial-data-cars
+      author:  jedrzej.bednarczyk
+      changes:
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "1989"
+              - column:
+                  name: model
+                  value: "126p"
+              - column:
+                  name: manufacturer
+                  value: "Fiat"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2004"
+              - column:
+                  name: model
+                  value: "Fusion"
+              - column:
+                  name: manufacturer
+                  value: "Ford"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2018"
+              - column:
+                  name: model
+                  value: "Focus"
+              - column:
+                  name: manufacturer
+                  value: "Ford"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "1974"
+              - column:
+                  name: model
+                  value: "Mustang"
+              - column:
+                  name: manufacturer
+                  value: "Ford"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2016"
+              - column:
+                  name: model
+                  value: "XC60"
+              - column:
+                  name: manufacturer
+                  value: "Volvo"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2017"
+              - column:
+                  name: model
+                  value: "XC90"
+              - column:
+                  name: manufacturer
+                  value: "Volvo"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2018"
+              - column:
+                  name: model
+                  value: "S60"
+              - column:
+                  name: manufacturer
+                  value: "Volvo"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2019"
+              - column:
+                  name: model
+                  value: "S90"
+              - column:
+                  name: manufacturer
+                  value: "Volvo"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2001"
+              - column:
+                  name: model
+                  value: "A4"
+              - column:
+                  name: manufacturer
+                  value: "Audi"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2003"
+              - column:
+                  name: model
+                  value: "A3"
+              - column:
+                  name: manufacturer
+                  value: "Audi"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2005"
+              - column:
+                  name: model
+                  value: "Q7"
+              - column:
+                  name: manufacturer
+                  value: "Audi"
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: production_year
+                  value: "2008"
+              - column:
+                  name: model
+                  value: "Q5"
+              - column:
+                  name: manufacturer
+                  value: "Audi"

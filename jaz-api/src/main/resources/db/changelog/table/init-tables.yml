@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2020_12_10-initial-tables
+      author: jedrzej.bednarczyk
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: cars, addons
+      changes:
+        - createTable:
+            tableName: cars
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: car_id_pkey
+              - column:
+                  name: production_year
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: model
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: manufacturer
+                  type: VARCHAR(255)
+        - createTable:
+            tableName: addons
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: addon_id_pkey
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(9,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: car_id
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: addon_car_id_fkey
+                    references: cars(id)

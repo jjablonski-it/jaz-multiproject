@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id:  2020_12_10-insert-initial-data-addons
+      author:  jedrzej.bednarczyk
+      changes:
+        - sqlFile:
+            splitStatements: true
+            stripComments: true
+            path: db/changelog/data/sql/insert-addons.sql
+
