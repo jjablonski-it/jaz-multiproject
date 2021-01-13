@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class User implements UserDetails {
-    private final String username;
-    private final String password;
-    private final Collection<GrantedAuthority> authorities;
+    private String username;
+    private String password;
+    private Collection<GrantedAuthority> authorities;
+
+    public User() {}
 
     public User(String username, String password, Collection<GrantedAuthority> authorities) {
         this.username = username;
@@ -49,5 +51,17 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 }

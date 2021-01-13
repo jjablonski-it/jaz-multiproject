@@ -1,6 +1,5 @@
 package pl.edu.pjwstk.jazapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class CrudController<T extends DbEntity> {
-    @Autowired
     private final CrudService<T> service;
 
     public CrudController(CrudService<T> service) {
