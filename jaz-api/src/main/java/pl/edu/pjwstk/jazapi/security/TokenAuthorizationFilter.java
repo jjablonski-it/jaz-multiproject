@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -50,8 +51,10 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(token.replace(TOKEN_PREFIX, ""));
             String user = decoded.getSubject();
 
+            var authorities =  decoded.getClaim("authorities").asList(SimpleGrantedAuthority.class);
+
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, user, List.of(() -> "ROLE_ADMIN"));
+                return new UsernamePasswordAuthenticationToken(user, user, authorities);
             }
             return null;
         }

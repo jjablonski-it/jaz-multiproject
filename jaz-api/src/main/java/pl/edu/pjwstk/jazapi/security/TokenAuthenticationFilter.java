@@ -52,8 +52,11 @@ public class TokenAuthenticationFilter extends UsernamePasswordAuthenticationFil
                                             Authentication auth) throws IOException {
         String subject = auth.getPrincipal().toString();
 
+        var authorities = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
         String token = JWT.create()
                 .withSubject(subject)
+                .withClaim("authorities", authorities)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SECRET));
 
