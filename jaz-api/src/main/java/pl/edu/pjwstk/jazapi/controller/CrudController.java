@@ -43,9 +43,9 @@ public abstract class CrudController<T extends Identifiable, R extends Identifia
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<R> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<EntityModel<R>> getById(@PathVariable("id") Long id) {
         try {
-            R payload = transformToDTO().apply(service.getById(id));
+            EntityModel<R> payload = addLinksForItem().apply(transformToDTO().apply(service.getById(id)));
 
             return new ResponseEntity<>(payload, HttpStatus.OK);
         } catch (Exception e) {
