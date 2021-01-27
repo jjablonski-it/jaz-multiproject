@@ -1,13 +1,13 @@
 package pl.edu.pjwstk.jazapi.model;
 
-import pl.edu.pjwstk.jazapi.service.DbEntity;
+import pl.edu.pjwstk.jazapi.service.Identifiable;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "addons")
-public class AddOn implements DbEntity {
+public class AddOn implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

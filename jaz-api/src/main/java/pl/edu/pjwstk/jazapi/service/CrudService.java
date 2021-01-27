@@ -4,14 +4,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class CrudService<T extends DbEntity> {
+public abstract class CrudService<T extends Identifiable> {
     JpaRepository<T, Long> repository;
 
     public CrudService(JpaRepository<T, Long> repository) {

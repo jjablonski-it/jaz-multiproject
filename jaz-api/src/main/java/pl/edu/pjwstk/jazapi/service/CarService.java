@@ -28,8 +28,10 @@ public class CarService extends CrudService<Car> {
             updateEntity.setAddons(Collections.emptySet());
             Car insertedCar = repository.save(updateEntity);
 
-            addons.forEach(addon -> addon.setCar(insertedCar));
-            addOnRepository.saveAll(addons);
+            if (addons != null && addons.size() > 0) {
+                addons.forEach(addon -> addon.setCar(insertedCar));
+                addOnRepository.saveAll(addons);
+            }
 
             return insertedCar;
         }
@@ -45,8 +47,11 @@ public class CarService extends CrudService<Car> {
             var insertedCar = repository.save(dbEntity);
 
             Set<AddOn> addons = updateEntity.getAddons();
-            addons.forEach(addon -> addon.setCar(dbEntity));
-            addOnRepository.saveAll(addons);
+
+            if (addons != null && addons.size() > 0) {
+                addons.forEach(addon -> addon.setCar(dbEntity));
+                addOnRepository.saveAll(addons);
+            }
 
             return insertedCar;
         } else {
