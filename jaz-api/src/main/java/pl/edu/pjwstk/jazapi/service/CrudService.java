@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class CrudService<T extends Identifiable> {
-    JpaRepository<T, Long> repository;
+    protected JpaRepository<T, Long> repository;
 
     public CrudService(JpaRepository<T, Long> repository) {
         this.repository = repository;
@@ -25,6 +25,10 @@ public abstract class CrudService<T extends Identifiable> {
         items.forEach(itemList::add);
 
         return itemList;
+    }
+    public List<T> getAll() {
+        List<T> items = repository.findAll();
+        return items;
     }
 
     private Pageable buildPaging(int size, int page, String sort) {
